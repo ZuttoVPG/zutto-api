@@ -1,0 +1,32 @@
+language: php
+services:
+    - postgresql
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+        - vendor
+php:
+    - 5.6
+    - 7.0
+    - 7.1
+
+before_install: 
+    - phpenv config-rm xdebug.ini || return 0,
+    - travis_retry composer self-update
+
+install: 
+    - psql -c 'create database zutto_test;' -U postgres
+    - cp .travis.env .env
+    - travis_retry composer install --dev --no-interaction 
+    - composer show 
+
+script: 
+    - composer lint 
+    - composer cs-check
+    - composer test 
+
+notifications:
+    email: false
+    irc: "ircs://irc.yasashiisyndicate.org:6697/#zutto"
+
