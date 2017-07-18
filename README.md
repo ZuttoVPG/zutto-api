@@ -3,7 +3,7 @@ Welcome to ZuttoZuttoZutto, a completely free virtual pet game framework for you
 
 Zutto is a successor to Kitto, written for the modern era. It is written for PHP 7 with the Lumen framework (a stripped-down version of Laravel), takes advantages of modern PHP tools like Composer, and has a first-class mobile experience thanks to Bootstrap.
 
-## Project Status
+## Project Status [![Build Status](https://travis-ci.org/OwlManAtt/zuttozuttozutto.svg?branch=master)](https://travis-ci.org/OwlManAtt/zuttozuttozutto)
 The project is currently **IN DEVELOPMENT**. It's not complete enough for use, sorry!
 
 ## Installation
