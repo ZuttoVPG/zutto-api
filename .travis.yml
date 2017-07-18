@@ -22,7 +22,6 @@ install:
     - composer show 
 
 script: 
-    - composer lint 
     - composer cs-check
     - composer test 
 
