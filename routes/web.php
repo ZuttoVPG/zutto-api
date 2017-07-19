@@ -20,3 +20,6 @@ $app->post('/auth/login', 'AuthController@login');
 $app->post('/auth/logout', 'AuthController@logout');
 $app->post('/auth/forgot', 'AuthController@forgotRequest');
 $app->post('/auth/forgot/{token}', 'AuthController@forgotChange');
+
+// Meta stuff
+$app->get('/stats', 'MetaController@stats');
