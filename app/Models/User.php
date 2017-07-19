@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'username', 'email',
     ];
 
     /**
@@ -27,6 +27,19 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password',
+        'password_hash', 'password_salt', 'auth_provider',
     ];
+
+    public static function getSignupValidations()
+    {
+        return [
+            'username' => 'required|unique:users|max:32',
+            'email' => 'required|email|max:255',
+            'birthDate' => 'required|date_format:Y-m-d|coppa',
+            'tosAccept' => 'required|accepted',
+            'password' => 'required|min:8',
+            'registered_ip' => 'required|ip',
+            'last_access_ip' => 'required|ip',
+        ];
+    } // end getSignupValidations
 }

@@ -5,6 +5,8 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class AuthTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function testSignup()
     {
         $resp = $this->json('POST', '/auth/signup', [
@@ -12,13 +14,11 @@ class AuthTest extends TestCase
             'password' => 'pwpwpwpw',
             'email' => 'test@example.org',
             'birthDate' => '1975-01-01',
-            'tosAgree' => true,
+            'tosAccept' => true,
         ]);
 
-        $resp->assertResponseOk()
-            ->seeJson([
-                'username' => 'testacct',
-            ]);
+        $resp->assertResponseOk();
+        $resp->seeJsonStructure(['id', 'username']);
     } // end testSignup
 
     public function testLogin()
@@ -28,16 +28,16 @@ class AuthTest extends TestCase
             'password' => 'pwpwpwpw',
         ]);
     
-        $resp->seeJson(['username' => 'testacct']); 
+        $resp->seeJson(['username' => 'testacct']);
     } // end testLogin
 
-    public function testLogout() 
+    public function testLogout()
     {
-        $user = $user = factory('App\User')->create();
+        // $user = $user = factory('App\Models\User')->create();
         $resp = $this->actingAs($user)
             ->json('POST', '/auth/logout', [
                 'username' => 'testacct',
-                'password' => 'pwpwpwpw', 
+                'password' => 'pwpwpwpw',
             ]);
         
         $resp->assertResponseOk();
@@ -47,7 +47,7 @@ class AuthTest extends TestCase
     {
         $resp = $this->json('POST', '/auth/forgot', [
             'emailAddress' => 'test@example.org',
-        ])->assertResponseOk;
+        ])->assertResponseOk();
 
         // @TODO: figure out how to intercept the email or something
 
