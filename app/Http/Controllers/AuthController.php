@@ -47,8 +47,8 @@ class AuthController extends Controller
             return $this->formInvalidResponse('Username or password was invalid');
         }
 
-        return $resp; 
-   } // end login
+        return $resp;
+    } // end login
 
     public function logout(Request $request)
     {

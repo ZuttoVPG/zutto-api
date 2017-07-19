@@ -25,7 +25,7 @@ class AuthTest extends TestCase
     {
         $user = factory('App\Models\User')->create();
         $resp = $this->json('POST', '/auth/login', [
-            'username' => $user->username, 
+            'username' => $user->username,
             'password' => 'pwpwpwpw',
         ]);
     

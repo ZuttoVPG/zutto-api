@@ -26,8 +26,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['auth']->viaRequest('api', function ($request) {
-            if ($request->cookie('zuttoUser') == null)
-            {
+            if ($request->cookie('zuttoUser') == null) {
                 return;
             }
 

@@ -1,19 +1,19 @@
 <?php
 namespace App\AuthStrategy;
 
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use Illuminate\Cookie\CookieJar; 
+use Illuminate\Cookie\CookieJar;
 
 class NativeAuth
 {
-    static public function checkSession(Request $request)
+    public static function checkSession(Request $request)
     {
         return UserRepository::findUserByCookie($request->cookie('zuttoUser'), $request->cookie('zuttoToken'));
-    } // end checkSession 
+    } // end checkSession
 
-    static public function startSession(Request $request)
+    public static function startSession(Request $request)
     {
         $login = $request->all();
         $cookie = new CookieJar();
@@ -27,13 +27,13 @@ class NativeAuth
         $remember = User::generateCookie($user->id, $user->remember_token);
 
         // @TODO: the null/null/true is for secureOnly. This won't work for HTTP sites..config option maybe,
-        // since folks on shared hosting might not have https as an option? 
+        // since folks on shared hosting might not have https as an option?
         return response($user)
             ->withCookie($cookie->forever('zuttoUser', $user->id, null, null, true))
             ->withCookie($cookie->forever('zuttoToken', $remember['hash'], null, null, true));
     } // end startSession
 
-    static public function endSession(Request $request)
+    public static function endSession(Request $request)
     {
         $cookie = new CookieJar();
 
