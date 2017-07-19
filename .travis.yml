@@ -24,6 +24,10 @@ script:
     - composer cs-check
     - composer test 
 
+# after_success: # one day...
+after_script:
+    - travis_retry php vendor/bin/coveralls
+
 notifications:
     email: false
     irc: "ircs://irc.yasashiisyndicate.org:6697/#zutto"
