@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\AuthStrategy\NativeAuth;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -36,8 +37,18 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        return response(['NYI' => true])->setStatusCode(500);
-    } // end login
+        if ($request->user() != null) {
+            return $this->formInvalidResponse('Already logged in');
+        }
+
+        // @TODO: update this when we add g+/fb/etc auth
+        $resp = NativeAuth::startSession($request);
+        if ($resp == null) {
+            return $this->formInvalidResponse('Username or password was invalid');
+        }
+
+        return $resp; 
+   } // end login
 
     public function logout(Request $request)
     {

@@ -23,22 +23,33 @@ class AuthTest extends TestCase
 
     public function testLogin()
     {
+        $user = factory('App\Models\User')->create();
         $resp = $this->json('POST', '/auth/login', [
-            'username' => 'testacct',
+            'username' => $user->username, 
             'password' => 'pwpwpwpw',
         ]);
     
-        $resp->seeJson(['username' => 'testacct']);
+        $resp->assertResponseOk();
+        $resp->seeJsonStructure(['id', 'username']);
     } // end testLogin
+
+    public function testLoginFailIfAlready()
+    {
+        $user = factory('App\Models\User')->create();
+        $resp = $this->actingAs($user)
+            ->json('POST', '/auth/login', [
+                'username' => $user->username,
+                'password' => 'foobarbaz',
+            ]);
+
+        $resp->assertResponseStatus(400);
+    } // end testLoginFailIfAlready
 
     public function testLogout()
     {
-        // $user = $user = factory('App\Models\User')->create();
+        $user = $user = factory('App\Models\User')->create();
         $resp = $this->actingAs($user)
-            ->json('POST', '/auth/logout', [
-                'username' => 'testacct',
-                'password' => 'pwpwpwpw',
-            ]);
+            ->json('POST', '/auth/logout', []);
         
         $resp->assertResponseOk();
     } // end testLogout

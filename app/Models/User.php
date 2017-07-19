@@ -27,7 +27,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password_hash', 'password_salt', 'auth_provider',
+        'password_hash', 'password_salt', 'auth_provider', 'remember_token',
     ];
 
     public static function getSignupValidations()
@@ -42,4 +42,24 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             'last_access_ip' => 'required|ip',
         ];
     } // end getSignupValidations
+
+    public static function hashPassword($plaintext, $salt = null)
+    {
+        if ($salt == null) {
+            $salt = bin2hex(random_bytes(32));
+        }
+
+        $hash = hash_hmac('sha256', $plaintext, $salt);
+
+        return [
+            'salt' => $salt,
+            'hash' => $hash,
+        ];
+    } // end hashPassword
+
+    public static function generateCookie($user_id, $remember_me = null)
+    {
+        // They essentially do the same thing.
+        return self::hashPassword($user_id, $remember_me);
+    } // end generateCookie
 }
