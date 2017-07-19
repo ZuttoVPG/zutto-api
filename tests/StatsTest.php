@@ -14,5 +14,4 @@ class StatsTest extends TestCase
         $resp->assertResponseOk();
         $resp->seeJsonStructure(['users']);
     } // end testSignup
-
-} // end StatsTest 
+} // end StatsTest

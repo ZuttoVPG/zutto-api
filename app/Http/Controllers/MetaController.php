@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Validator;
+use DateTime;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\AuthStrategy\NativeAuth;
@@ -22,7 +23,10 @@ class MetaController extends Controller
 
     public function stats()
     {
+        $now = new DateTime('now');
+
         return response([
+            'at' => $now->format(DateTime::ATOM),
             'users' => User::count(),
         ]);
     } // end signup
