@@ -15,11 +15,17 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
+// Auth
 $app->post('/auth/signup', 'AuthController@signup');
 $app->post('/auth/login', 'AuthController@login');
 $app->post('/auth/logout', 'AuthController@logout');
 $app->post('/auth/forgot', 'AuthController@forgotRequest');
 $app->post('/auth/forgot/{token}', 'AuthController@forgotChange');
+
+// User
+$app->get('/user', 'UserController@get');
+$app->get('/user/{id}', 'UserController@get');
+$app->post('/user', 'UserController@update');
 
 // Meta stuff
 $app->get('/stats', 'MetaController@stats');
