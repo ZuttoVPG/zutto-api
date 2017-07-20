@@ -1,4 +1,4 @@
-# ZuttoZuttoZutto [![Build Status](https://travis-ci.org/OwlManAtt/zuttozuttozutto.svg?branch=master)](https://travis-ci.org/OwlManAtt/zuttozuttozutto) [![Coverage Status](https://coveralls.io/repos/github/OwlManAtt/zuttozuttozutto/badge.svg?branch=master)](https://coveralls.io/github/OwlManAtt/zuttozuttozutto?branch=master) [![Dependency Status](https://www.versioneye.com/user/projects/596eb8d16725bd00500292d9/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/596eb8d16725bd00500292d9)
+# ZuttoZuttoZutto [![Build Status](https://travis-ci.org/OwlManAtt/zutto-api.svg?branch=master)](https://travis-ci.org/OwlManAtt/zutto-api) [![Coverage Status](https://coveralls.io/repos/github/OwlManAtt/zutto-api/badge.svg?branch=master)](https://coveralls.io/github/OwlManAtt/zutto-api?branch=master) [![Dependency Status](https://www.versioneye.com/user/projects/5971326c0fb24f0022bae942/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5971326c0fb24f0022bae942) 
 
 Zutto backend API
 
