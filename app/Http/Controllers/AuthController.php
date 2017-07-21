@@ -27,7 +27,7 @@ class AuthController extends Controller
         
         $validator = Validator::make($userData, User::getSignupValidations());
         if ($validator->fails() == true) {
-            return $this->formInvalidResponse($validator->errors());
+            return $this->formInvalidResponse(null, $validator->errors());
         }
 
         $user = UserRepository::createNewUser($userData);
@@ -39,6 +39,14 @@ class AuthController extends Controller
     {
         if ($request->user() != null) {
             return $this->formInvalidResponse('Already logged in');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'username' => 'required', 
+            'password' => 'required', 
+        ]);
+        if ($validator->fails() == true) {
+            return $this->formInvalidResponse(null, $validator->errors());
         }
 
         // @TODO: update this when we add g+/fb/etc auth

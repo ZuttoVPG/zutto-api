@@ -19,7 +19,7 @@ class UserController extends Controller
 
         $user = User::find($id);
         if ($user == null) {
-            return $this->formInvalidResponse(['User not found']);
+            return $this->formInvalidResponse('User not found');
         }
 
         return response($user);
