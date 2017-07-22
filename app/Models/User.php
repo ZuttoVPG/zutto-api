@@ -30,6 +30,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password_hash', 'password_salt', 'auth_provider', 'remember_token',
     ];
 
+    public function sessions()
+    {
+        return $this->hasMany('App\Models\UserSession');
+    } // end sessions
+
     public static function getSignupValidations()
     {
         return [
