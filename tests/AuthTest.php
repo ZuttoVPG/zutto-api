@@ -18,7 +18,7 @@ class AuthTest extends TestCase
         ]);
 
         $resp->assertResponseOk();
-        $resp->seeJsonStructure(['id', 'username']);
+        $resp->seeJsonStructure(['session', 'token', 'user']);
     } // end testSignup
 
     public function testLogin()
@@ -30,7 +30,7 @@ class AuthTest extends TestCase
         ]);
     
         $resp->assertResponseOk();
-        $resp->seeJsonStructure(['id', 'username']);
+        $resp->seeJsonStructure(['session', 'token', 'user']);
     } // end testLogin
 
     public function testLoginFailIfAlready()
@@ -47,10 +47,17 @@ class AuthTest extends TestCase
 
     public function testLogout()
     {
-        $user = $user = factory('App\Models\User')->create();
-        $resp = $this->actingAs($user)
-            ->json('POST', '/auth/logout', []);
-        
+        $user = factory('App\Models\User')->create();
+        $login = $this->json('POST', '/auth/login', [
+            'username' => $user->username,
+            'password' => 'pwpwpwpw',
+        ]);
+        $login->assertResponseOk();
+        $tokens = json_decode($login->response->getContent(), true);
+
+        $resp = $this->json('POST', '/auth/logout', [], [
+            'Authorization' => json_encode(['session' => $tokens['session'], 'token' => $tokens['token']])
+        ]);
         $resp->assertResponseOk();
     } // end testLogout
 

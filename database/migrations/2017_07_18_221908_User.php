@@ -26,7 +26,6 @@ class User extends Migration
             $table->ipAddress('registered_ip');
             $table->ipAddress('last_access_ip');
             $table->timestamps();
-            $table->rememberToken();
 
             $table->unique('username');
             $table->index('email');

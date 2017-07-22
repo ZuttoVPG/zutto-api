@@ -31,8 +31,9 @@ class AuthController extends Controller
         }
 
         $user = UserRepository::createNewUser($userData);
+        $auth = NativeAuth::startSession($request);
 
-        return response($user);
+        return response($auth->makeVisible('token')->toArray());
     } // end signup
 
     public function login(Request $request)
@@ -50,17 +51,23 @@ class AuthController extends Controller
         }
 
         // @TODO: update this when we add g+/fb/etc auth
-        $resp = NativeAuth::startSession($request);
-        if ($resp == null) {
+        $session = NativeAuth::startSession($request);
+        if ($session == null) {
             return $this->formInvalidResponse('Username or password was invalid');
         }
 
-        return $resp;
+        return response($session->makeVisible('token')->toArray());
     } // end login
 
     public function logout(Request $request)
     {
-        return response(['NYI' => true])->setStatusCode(500);
+        $ended = NativeAuth::endSession($request);
+
+        if ($ended == false) {
+            return $this->formInvalidResponse('Unable to log out');
+        }
+
+        return response([]);
     } // end logout
 
     public function forgotRequest(Request $request)

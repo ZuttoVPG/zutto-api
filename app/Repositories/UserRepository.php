@@ -2,35 +2,41 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\UserSession;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository extends BaseRepository
 {
-    public static function updateToken($user_id, $token)
+    public static function createSession($user_id, $token)
     {
-        // @TODO: this does 2 queries where we only need 1,
-        // but doing User::where()->update() doesn't manage the updated_at for me
-        $user = User::find($user_id);
-        $user->remember_token = $token;
-        $user->save();
+        $session = new UserSession;
+        $session->user_id = $user_id;
+        $session->token = $token;
+        $session->save();
 
-        return $user;
+        // Load up the user so it's available for responses 
+        $session->user;
+
+        return $session;
     } // end updateToken
 
-    public static function findUserByCookie($user_id, $token)
+    public static function destroySession($session_id)
     {
-        $user = User::find($user_id);
-        if ($user == null) {
-            return null;
-        }
+        return UserSession::destroy($session_id) > 0;
+    } // end destroySession
 
-        $token_data = User::generateCookie($user_id, $user->remember_token);
-        if (hash_equals($token_data['hash'], $token) == false) {
-            return null;
-        }
+    public static function findUserByToken($session_id, $token)
+    {
+        $session = UserSession::where('id', '=', $session_id)
+            ->where('token', '=', $token)
+            ->first();
+        
+        if ($session != null) {
+            return $session->user;
+        } 
 
-        return $user;
-    } // end findUserByCookie
+        return null;
+    } // end findUserByToken
 
     public static function findUserByCredentials($username, $password_plaintext)
     {

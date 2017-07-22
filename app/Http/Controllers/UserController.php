@@ -10,7 +10,12 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-   public function get(Request $request, $id = null)
+    public function __construct()
+    {
+        $this->middleware('auth');
+    } // end __construct
+
+    public function get(Request $request, $id = null)
     {
         if ($id == null)
         {

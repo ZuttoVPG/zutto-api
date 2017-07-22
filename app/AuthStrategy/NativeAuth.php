@@ -4,41 +4,40 @@ namespace App\AuthStrategy;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use Illuminate\Cookie\CookieJar;
 
 class NativeAuth
 {
     public static function checkSession(Request $request)
     {
-        return UserRepository::findUserByCookie($request->cookie('zuttoUser'), $request->cookie('zuttoToken'));
+        $auth_header = $request->header('Authorization');
+        if ($auth_header == null) {
+            return;
+        }
+
+        $auth = json_decode($auth_header, true);
+        return UserRepository::findUserByToken($auth['session'], $auth['token']);
     } // end checkSession
 
     public static function startSession(Request $request)
     {
         $login = $request->all();
-        $cookie = new CookieJar();
 
         $user = UserRepository::findUserByCredentials($login['username'], $login['password']);
         if ($user == null) {
             return null;
         }
        
-        $user = UserRepository::updateToken($user->id, bin2hex(random_bytes(32)));
-        $remember = User::generateCookie($user->id, $user->remember_token);
-
-        // @TODO: the null/null/true is for secureOnly. This won't work for HTTP sites..config option maybe,
-        // since folks on shared hosting might not have https as an option?
-        return response($user)
-            ->withCookie($cookie->forever('zuttoUser', $user->id, null, null, true))
-            ->withCookie($cookie->forever('zuttoToken', $remember['hash'], null, null, true));
+        return UserRepository::createSession($user->id, bin2hex(random_bytes(32)));
     } // end startSession
 
     public static function endSession(Request $request)
     {
-        $cookie = new CookieJar();
+        $user = self::checkSession($request);
+        if ($user == null) {
+            return false;
+        }
 
-        return $request->response([])
-            ->withCookie($cookie->forget('zuttoUser'))
-            ->withCookie($cookie->forget('zuttoToken'));
+        $auth = json_decode($request->header('Authorization'), true);
+        return UserRepository::destroySession($auth['session']);
     } // end endSession
 } // end Native
