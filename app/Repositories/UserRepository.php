@@ -14,7 +14,7 @@ class UserRepository extends BaseRepository
         $session->token = $token;
         $session->save();
 
-        // Load up the user so it's available for responses 
+        // Load up the user so it's available for responses
         $session->user;
 
         return $session;
@@ -33,7 +33,7 @@ class UserRepository extends BaseRepository
         
         if ($session != null) {
             return $session->user;
-        } 
+        }
 
         return null;
     } // end findUserByToken

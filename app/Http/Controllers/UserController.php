@@ -17,8 +17,7 @@ class UserController extends Controller
 
     public function get(Request $request, $id = null)
     {
-        if ($id == null)
-        {
+        if ($id == null) {
             return $request->user();
         }
 
@@ -34,5 +33,4 @@ class UserController extends Controller
     {
         return response(['NYI' => true])->setStatusCode(500);
     } // end login
-
 } // end UserController

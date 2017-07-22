@@ -22,5 +22,4 @@ class UserSession extends Model
     {
         return $this->belongsTo('App\Models\User');
     } // end user
-
 } // end UserSession

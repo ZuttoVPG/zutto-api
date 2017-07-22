@@ -12,8 +12,7 @@ class Controller extends BaseController
             $general_errors = [];
         }
 
-        if (is_array($general_errors) == false)
-        {
+        if (is_array($general_errors) == false) {
             $general_errors = [$general_errors];
         }
 

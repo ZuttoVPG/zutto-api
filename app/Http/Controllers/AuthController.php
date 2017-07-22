@@ -43,8 +43,8 @@ class AuthController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'username' => 'required', 
-            'password' => 'required', 
+            'username' => 'required',
+            'password' => 'required',
         ]);
         if ($validator->fails() == true) {
             return $this->formInvalidResponse(null, $validator->errors());
