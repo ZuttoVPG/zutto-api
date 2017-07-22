@@ -15,8 +15,7 @@ class NativeAuth
         }
 
         $auth = json_decode($auth_header, true);
-        if (array_key_exists('session', $auth) == false || array_key_exists('token', $auth) == false)
-        {
+        if (array_key_exists('session', $auth) == false || array_key_exists('token', $auth) == false) {
             return;
         }
 
