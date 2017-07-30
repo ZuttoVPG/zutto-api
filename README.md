@@ -4,3 +4,7 @@ Zutto backend API
 
 ## Installation
 
+```php
+php artisan passport:install
+php artisan passport:client --password
+```

@@ -7,6 +7,20 @@ class UserTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function testSignup()
+    {
+        $resp = $this->json('PUT', '/user', [
+            'username' => 'testacct',
+            'password' => 'pwpwpwpw',
+            'email' => 'test@example.org',
+            'birthDate' => '1975-01-01',
+            'tosAccept' => true,
+        ]);
+
+        $resp->assertResponseOk();
+        $resp->seeJsonStructure(['id', 'username']);
+    } // end testSignup
+
     public function testGetSelf()
     {
         $user = factory('App\Models\User')->create();

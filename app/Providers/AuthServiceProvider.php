@@ -2,12 +2,19 @@
 
 namespace App\Providers;
 
-use App\AuthStrategy\NativeAuth;
-use Illuminate\Support\Facades\Gate;
+use Dusterio\LumenPassport\LumenPassport;
+use Laravel\Passport\Passport;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
+
+    public function boot()
+    {
+        LumenPassport::allowMultipleTokens();
+        Passport::enableImplicitGrant();
+    } // end boot
+
     /**
      * Register any application services.
      *
@@ -16,17 +23,5 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         //
-    }
-
-    /**
-     * Boot the authentication services for the application.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->app['auth']->viaRequest('api', function ($request) {
-            return NativeAuth::checkSession($request);
-        });
     }
 }

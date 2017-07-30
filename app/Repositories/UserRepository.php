@@ -2,49 +2,12 @@
 namespace App\Repositories;
 
 use App\Models\User;
-use App\Models\UserSession;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository extends BaseRepository
 {
-    public static function createSession($user_id, $token)
+    public static function findUserByCredentials(User $user, $password_plaintext)
     {
-        $session = new UserSession;
-        $session->user_id = $user_id;
-        $session->token = $token;
-        $session->save();
-
-        // Load up the user so it's available for responses
-        $session->user;
-
-        return $session;
-    } // end updateToken
-
-    public static function destroySession($session_id)
-    {
-        return UserSession::destroy($session_id) > 0;
-    } // end destroySession
-
-    public static function findUserByToken($session_id, $token)
-    {
-        $session = UserSession::where('id', '=', $session_id)
-            ->where('token', '=', $token)
-            ->first();
-        
-        if ($session != null) {
-            return $session->user;
-        }
-
-        return null;
-    } // end findUserByToken
-
-    public static function findUserByCredentials($username, $password_plaintext)
-    {
-        $user = User::where('username', '=', $username)->first();
-        if ($user == null) {
-            return null;
-        }
-
         $pw_data = User::hashPassword($password_plaintext, $user->password_salt);
         if (hash_equals($user->password_hash, $pw_data['hash']) == false) {
             // @TODO: log this for rate-limiting

@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use RuntimeException;
+use App\Repositories\UserRepository;
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
-    use Authenticatable, Authorizable;
+    use HasApiTokens, Authenticatable, Authorizable;
 
     /**
      * The attributes that are mass assignable.
@@ -29,11 +32,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password_hash', 'password_salt', 'auth_provider', 'remember_token',
     ];
-
-    public function sessions()
-    {
-        return $this->hasMany('App\Models\UserSession');
-    } // end sessions
 
     public static function getSignupValidations()
     {
@@ -67,4 +65,22 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         // They essentially do the same thing.
         return self::hashPassword($user_id, $remember_me);
     } // end generateCookie
+
+
+    /**
+     * Needed for Passport
+     */
+    public function findForPassport($username)
+    {
+        return self::where('username', '=', $username)->first();
+    } // end findForPassport
+
+    public function validateForPassportPasswordGrant($password)
+    {
+        if ($this->id == null) {
+            throw new RuntimeException('Cannot validate unloaded user');
+        }
+
+        return UserRepository::findUserByCredentials($this, $password);
+    } // end validateForPassportPasswordGrant
 }

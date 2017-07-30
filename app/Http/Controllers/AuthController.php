@@ -3,46 +3,25 @@
 namespace App\Http\Controllers;
 
 use Validator;
-use App\Models\User;
-use App\Repositories\UserRepository;
-use App\AuthStrategy\NativeAuth;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ControllerHelper;
+use Psr\Http\Message\ServerRequestInterface;
+use Dusterio\LumenPassport\Http\Controllers\AccessTokenController;
 
-class AuthController extends Controller
+class AuthController extends AccessTokenController
 {
+    use ControllerHelper;
+
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Adding some better error response stuff on top of the LumenPassport functionality
      */
-    public function __construct()
+    public function issueTokenZutto(ServerRequestInterface $psr_request, Request $lumen_request)
     {
-        //
-    }
-
-    public function signup(Request $request)
-    {
-        $ip = ['registered_ip' => $request->ip(), 'last_access_ip' => $request->ip()];
-        $userData = array_merge($request->all(), $ip);
-        
-        $validator = Validator::make($userData, User::getSignupValidations());
-        if ($validator->fails() == true) {
-            return $this->formInvalidResponse(null, $validator->errors());
-        }
-
-        $user = UserRepository::createNewUser($userData);
-        $auth = NativeAuth::startSession($request);
-
-        return response($auth->makeVisible('token')->toArray());
-    } // end signup
-
-    public function login(Request $request)
-    {
-        if ($request->user() != null) {
+        if ($lumen_request->user() != null) {
             return $this->formInvalidResponse('Already logged in');
         }
 
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($lumen_request->all(), [
             'username' => 'required',
             'password' => 'required',
         ]);
@@ -50,33 +29,14 @@ class AuthController extends Controller
             return $this->formInvalidResponse(null, $validator->errors());
         }
 
-        // @TODO: update this when we add g+/fb/etc auth
-        $session = NativeAuth::startSession($request);
-        if ($session == null) {
-            return $this->formInvalidResponse('Username or password was invalid');
+        $response = parent::issueToken($psr_request);
+        if ($response->getStatusCode() != 200) {
+            $error = json_decode($response->getBody()->__toString(), true);
+
+            // Reformat the Passport error into our usual Zutto form error response
+            return $this->formInvalidResponse($error['message']);
         }
 
-        return response($session->makeVisible('token')->toArray());
-    } // end login
-
-    public function logout(Request $request)
-    {
-        $ended = NativeAuth::endSession($request);
-
-        if ($ended == false) {
-            return $this->formInvalidResponse('Unable to log out');
-        }
-
-        return response([]);
-    } // end logout
-
-    public function forgotRequest(Request $request)
-    {
-        return response(['NYI' => true])->setStatusCode(500);
-    } // end forgotRequest
-
-    public function forgotChange(Request $request, $token)
-    {
-        return response(['NYI' => true])->setStatusCode(500);
-    } // end forgotChange
-}
+        return $response;
+    } // end issueToken
+} // end AuthController

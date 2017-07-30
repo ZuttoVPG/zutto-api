@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use DateTime;
+use Dusterio\LumenPassport\LumenPassport;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,6 +18,9 @@ class AppServiceProvider extends ServiceProvider
 
             return $years_old >= 13;
         });
+
+        // Multiple sessions per user+client
+        LumenPassport::allowMultipleTokens();
     } // end boot
 
     /**

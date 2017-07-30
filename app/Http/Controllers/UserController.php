@@ -5,16 +5,10 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use App\AuthStrategy\NativeAuth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    } // end __construct
-
     public function get(Request $request, $id = null)
     {
         if ($id == null) {
@@ -33,4 +27,19 @@ class UserController extends Controller
     {
         return response(['NYI' => true])->setStatusCode(500);
     } // end login
+
+    public function create(Request $request)
+    {
+        $ip = ['registered_ip' => $request->ip(), 'last_access_ip' => $request->ip()];
+        $userData = array_merge($request->all(), $ip);
+        
+        $validator = Validator::make($userData, User::getSignupValidations());
+        if ($validator->fails() == true) {
+            return $this->formInvalidResponse(null, $validator->errors());
+        }
+
+        $user = UserRepository::createNewUser($userData);
+
+        return response($user->toArray());
+    } // end signup
 } // end UserController
