@@ -43,6 +43,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             'password' => 'required|min:8',
             'registered_ip' => 'required|ip',
             'last_access_ip' => 'required|ip',
+            'captchaToken' => 'required|recaptcha'
         ];
     } // end getSignupValidations
 

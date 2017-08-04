@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use DateTime;
+use ReCaptcha\ReCaptcha;
 use Dusterio\LumenPassport\LumenPassport;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
@@ -17,6 +18,13 @@ class AppServiceProvider extends ServiceProvider
             $years_old = $date->diff(new DateTime('now'))->y;
 
             return $years_old >= 13;
+        });
+
+        Validator::extend('recaptcha', function($attribute, $value, $parameters, $validator) {
+            $recaptcha = new ReCaptcha(config('recaptcha.private_key'));
+            $resp = $recaptcha->verify($value);
+
+            return $resp->isSuccess();
         });
 
         // Multiple sessions per user+client
