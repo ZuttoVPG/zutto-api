@@ -27,7 +27,11 @@ $app->withFacades(true, [
     App\Support\Facades\Captcha::class => 'Captcha',
 ]);
 $app->withEloquent();
+
+// Pull in config files
 $app->configure('recaptcha');
+$app->configure('mail');
+$app->configure('services');
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +89,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

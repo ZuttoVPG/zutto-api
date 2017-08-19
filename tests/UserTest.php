@@ -1,6 +1,8 @@
 <?php
 
+use App\Mail\EmailVerify;
 use App\Support\Facades\Captcha; 
+use Illuminate\Support\Facades\Mail;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
@@ -19,6 +21,8 @@ class UserTest extends TestCase
 
     public function testSignup()
     {
+        Mail::fake();
+
         Captcha::shouldReceive('verify')
             ->once()
             ->with('test')
@@ -33,10 +37,13 @@ class UserTest extends TestCase
 
         $resp->assertResponseOk();
         $resp->seeJsonStructure(['id', 'username']);
+        Mail::assertSent(EmailVerify::class);
     } // end testSignup
 
     public function testSignupWithBadCaptcha()
     {
+        Mail::fake();
+
         Captcha::shouldReceive('verify')
             ->once()
             ->with('test')

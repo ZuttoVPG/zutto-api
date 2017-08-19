@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Validator;
 use App\Models\User;
+use App\Mail\EmailVerify;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -39,6 +41,7 @@ class UserController extends Controller
         }
 
         $user = UserRepository::createNewUser($userData);
+        Mail::to($user->email)->send(new EmailVerify($user));
 
         return response($user->toArray());
     } // end signup
