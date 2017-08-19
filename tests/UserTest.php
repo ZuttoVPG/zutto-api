@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\Facades\Captcha; 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
@@ -7,18 +8,49 @@ class UserTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $create_data = [
+        'username' => 'testacct',
+        'password' => 'pwpwpwpw',
+        'email' => 'test@example.org',
+        'birthDate' => '1975-01-01',
+        'tosAccept' => true,
+        'captchaToken' => 'test',
+    ];
+
     public function testSignup()
     {
-        $resp = $this->json('PUT', '/user', [
-            'username' => 'testacct',
-            'password' => 'pwpwpwpw',
-            'email' => 'test@example.org',
-            'birthDate' => '1975-01-01',
-            'tosAccept' => true,
-        ]);
+        Captcha::shouldReceive('verify')
+            ->once()
+            ->with('test')
+            ->andReturn(new class {
+                public function isSuccess()
+                {
+                    return true;
+                }
+            });
+
+        $resp = $this->json('PUT', '/user', $this->create_data);
 
         $resp->assertResponseOk();
         $resp->seeJsonStructure(['id', 'username']);
+    } // end testSignup
+
+    public function testSignupWithBadCaptcha()
+    {
+        Captcha::shouldReceive('verify')
+            ->once()
+            ->with('test')
+            ->andReturn(new class {
+                public function isSuccess()
+                {
+                    return false;
+                }
+            });
+
+        $resp = $this->json('PUT', '/user', $this->create_data);
+
+        $resp->assertResponseStatus(400);
+        $resp->seeJsonStructure(['errors' => ['fields' => ['captchaToken']]]);
     } // end testSignup
 
     public function testGetSelf()

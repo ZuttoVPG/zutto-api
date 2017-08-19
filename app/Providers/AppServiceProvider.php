@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use DateTime;
-use ReCaptcha\ReCaptcha;
+use App\Support\Facades\Captcha;
+use Illuminate\Support\Facades\App;
 use Dusterio\LumenPassport\LumenPassport;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
@@ -21,10 +22,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('recaptcha', function($attribute, $value, $parameters, $validator) {
+            /*
             $recaptcha = new ReCaptcha(config('recaptcha.private_key'));
             $resp = $recaptcha->verify($value);
 
             return $resp->isSuccess();
+            */
+            $resp = Captcha::verify($value);
+            return $resp->isSuccess(); 
         });
 
         // Multiple sessions per user+client
@@ -38,6 +43,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        App::bind('captcha', function() {
+            return new \App\Support\Captcha;
+        });
     }
 }
