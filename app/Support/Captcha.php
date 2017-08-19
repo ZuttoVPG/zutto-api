@@ -3,7 +3,7 @@ namespace App\Support;
 
 use ReCaptcha\ReCaptcha;
 
-class Captcha 
+class Captcha
 {
     public static function verify($token)
     {

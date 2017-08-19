@@ -1,7 +1,7 @@
 <?php
 
 use App\Mail\EmailVerify;
-use App\Support\Facades\Captcha; 
+use App\Support\Facades\Captcha;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;

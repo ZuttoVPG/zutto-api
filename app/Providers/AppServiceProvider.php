@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
             return $years_old >= 13;
         });
 
-        Validator::extend('recaptcha', function($attribute, $value, $parameters, $validator) {
+        Validator::extend('recaptcha', function ($attribute, $value, $parameters, $validator) {
             /*
             $recaptcha = new ReCaptcha(config('recaptcha.private_key'));
             $resp = $recaptcha->verify($value);
@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
             return $resp->isSuccess();
             */
             $resp = Captcha::verify($value);
-            return $resp->isSuccess(); 
+            return $resp->isSuccess();
         });
 
         // Multiple sessions per user+client
@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        App::bind('captcha', function() {
+        App::bind('captcha', function () {
             return new \App\Support\Captcha;
         });
     }
