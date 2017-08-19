@@ -29,6 +29,7 @@ class UserRepository extends BaseRepository
 
             $user->email = $userData['email'];
             $user->email_confirmed = false;
+            $user->email_verify_token = bin2hex(random_bytes(32));
 
             $user->birth_date = $userData['birthDate'];
             $user->tos_accept = $userData['tosAccept'];
@@ -38,10 +39,23 @@ class UserRepository extends BaseRepository
 
             $user->registered_ip = $userData['registered_ip'];
             $user->last_access_ip = $userData['last_access_ip'];
+
     
             $user->save();
 
             return $user;
         });
     } // end createNewUser
+
+    public static function verifyEmail(User $user)
+    {
+        return DB::transaction(function () use ($user) {
+            $user->email_verify_token = null;
+            $user->email_confirmed = true;
+
+            $user->save();
+
+            return $user;
+        });
+    } // end verifyUser
 } // end UserRepository

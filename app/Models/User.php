@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password_hash', 'password_salt', 'auth_provider', 'remember_token',
+        'password_hash', 'password_salt', 'auth_provider', 'remember_token', 'email_verify_token',
     ];
 
     public static function getSignupValidations()

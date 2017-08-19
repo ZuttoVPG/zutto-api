@@ -23,17 +23,23 @@ $app->group(['prefix' => 'oauth'], function () use ($app) {
     $app->post('/token', 'AuthController@issueTokenZutto');
 });
 
-// Move these to user too probably 
+// Unauthed signup/user management operations 
+$app->put('/user', 'UserController@create');
 $app->post('/auth/forgot', 'AuthController@forgotRequest');
 $app->post('/auth/forgot/{token}', 'AuthController@forgotChange');
 
-// User
-$app->put('/user', 'UserController@create');
-
+// Authenticated stuff
 $app->group(['middleware' => 'auth'], function () use ($app) {
+    // Self management
     $app->get('/user', 'UserController@get');
-    $app->get('/user/{id}', 'UserController@get');
     $app->post('/user', 'UserController@update');
+
+    // User lookup
+    $app->get('/user/{id}', 'UserController@get');
+
+    // Email Verification
+    $app->post('/verify/resend', 'VerifyController@resend');
+    $app->post('/verify/{token}', 'VerifyController@verify');
 });
 
 // Meta stuff

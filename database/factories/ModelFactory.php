@@ -19,6 +19,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'tos_accept' => true,
         'registered_ip' => '127.0.0.1',
         'last_access_ip' => '127.0.0.1',
+        'email_verify_token' => 'abcdefghijklmnop',
 
         // This is 'pwpwpwpw'
         'password_hash' => '2d613f753bfe8fc36b94418c2b14bcc8146e68687e37e8fb6f4820d87b7f8967',

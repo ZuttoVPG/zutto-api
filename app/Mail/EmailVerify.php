@@ -22,7 +22,7 @@ class EmailVerify extends Mailable
         return $this->view('mail.email-verify')
             ->subject('Zuttopets - Verify Email')
             ->with([
-                'username' => $this->user->username, 
+                'username' => $this->user->username,
                 'id' => $this->user->id,
                 'verifyToken' => 'xxx', // @TODO: add this to the table!
             ]);
