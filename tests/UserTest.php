@@ -81,8 +81,10 @@ class UserTest extends TestCase
         $resp->seeJsonStructure(['id', 'username']);
     } // end testGetOtherUser
 
-    public function testUpdateProfile()
+    public function testUpdateProfileEmail()
     {
+        Mail::fake();
+
         $user = factory('App\Models\User')->create();
         $resp = $this->actingAs($user)->json('POST', '/user', [
             'email' => 'something-different@example.org',
@@ -90,5 +92,18 @@ class UserTest extends TestCase
 
         $resp->assertResponseOk();
         $resp->seeJsonStructure(['id', 'username']);
-    } // end testUpdateProfile
+        
+        Mail::assertSent(EmailVerify::class);
+    } // end testUpdateProfileEmail
+
+    public function testUpdateProfilePassword()
+    {
+        $user = factory('App\Models\User')->create();
+        $resp = $this->actingAs($user)->json('POST', '/user', [
+            'password' => 'literallydogs',
+        ]);
+
+        $resp->assertResponseOk();
+        $resp->seeJsonStructure(['id', 'username']);
+    } // end testUpdateProfilePassword
 } // end UserTest
