@@ -11,36 +11,36 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+$router->get('/', function () use ($router) {
+    return "ZuttoZuttoZutto API v0.0.0-indev"; 
 });
 
 // OAuth2 provider -- see https://github.com/dusterio/lumen-passport#installed-routes
-Dusterio\LumenPassport\LumenPassport::routes($app);
+Dusterio\LumenPassport\LumenPassport::routes($router);
 
 // Steal the token endpoint & replace it with the zutto wrapper
-$app->group(['prefix' => 'oauth'], function () use ($app) {
-    $app->post('/token', 'AuthController@issueTokenZutto');
+$router->group(['prefix' => 'oauth'], function () use ($router) {
+    $router->post('/token', 'AuthController@issueTokenZutto');
 });
 
 // Unauthed signup/user management operations 
-$app->put('/user', 'UserController@create');
-$app->post('/auth/forgot', 'AuthController@forgotRequest');
-$app->post('/auth/forgot/{token}', 'AuthController@forgotChange');
+$router->put('/user', 'UserController@create');
+$router->post('/auth/forgot', 'AuthController@forgotRequest');
+$router->post('/auth/forgot/{token}', 'AuthController@forgotChange');
 
 // Authenticated stuff
-$app->group(['middleware' => 'auth'], function () use ($app) {
+$router->group(['middleware' => 'auth'], function () use ($router) {
     // Self management
-    $app->get('/user', 'UserController@get');
-    $app->post('/user', 'UserController@update');
+    $router->get('/user', 'UserController@get');
+    $router->post('/user', 'UserController@update');
 
     // User lookup
-    $app->get('/user/{id}', 'UserController@get');
+    $router->get('/user/{id}', 'UserController@get');
 
     // Email Verification
-    $app->post('/verify/resend', 'VerifyController@resend');
-    $app->post('/verify/{token}', 'VerifyController@verify');
+    $router->post('/verify/resend', 'VerifyController@resend');
+    $router->post('/verify/{token}', 'VerifyController@verify');
 });
 
 // Meta stuff
-$app->get('/stats', 'MetaController@stats');
+$router->get('/stats', 'MetaController@stats');
