@@ -10,7 +10,8 @@
         "vlucas/phpdotenv": "~2.2",
         "dusterio/lumen-passport": "^0.2.0",
         "google/recaptcha": "~1.1",
-        "illuminate/mail": "^5.5"
+        "illuminate/mail": "^5.5",
+        "sentry/sentry-laravel": "^0.8.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
