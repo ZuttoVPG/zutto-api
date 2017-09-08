@@ -90,7 +90,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
-$app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
+// $app->register(Sentry\SentryLaravel\SentryLumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
