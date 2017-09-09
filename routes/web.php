@@ -42,5 +42,13 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('/verify/{token}', 'VerifyController@verify');
 });
 
+// Config routes. 
+// @TODO - authenticate for admins too
+$router->group(['prefix' => 'config', 'middleware' => 'auth'], function () use ($router) {
+    $router->get('rollTable/{id}', 'Config\RollTableController@getOne');
+    $router->get('rollTable/test/{id}', 'Config\RollTableController@testRoll');
+    $router->get('rollTable/test/{id}/{seed}', 'Config\RollTableController@testRoll');
+});
+
 // Meta stuff
 $router->get('/stats', 'MetaController@stats');
