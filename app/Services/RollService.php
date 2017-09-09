@@ -54,11 +54,12 @@ class RollService
 
                 $prize_ref = $prize_refs[$this->getRandom()];
                 $prize = $tier->list->objects[$prize_ref];
+                $prize_quantity = $this->getRandom($prize->min_quantity, $prize->max_quantity);
 
                 // @TODO - fix the quantity stuff, needs migs
                 $this->result->log($tier->tier, 'Roll table was ' . json_encode($prize_refs));
-                $this->result->log($tier->tier, 'Won ' . $prize->object_type . ':' . $prize->object_id . " x[qty]");
-                $this->result->addObject($prize->object, 1);
+                $this->result->log($tier->tier, 'Won ' . $prize->object_type . ':' . $prize->object_id . " x$prize_quantity");
+                $this->result->addObject($prize->object, $prize_quantity);
             } else {
                 $this->result->log($tier->tier, "Failed tier with $tier_roll >= $chance"); 
             }
@@ -70,9 +71,9 @@ class RollService
         return $this->getResult();
     } // end roll
 
-    protected function getRandom()
+    protected function getRandom($min = 1, $max = 100)
     {
-        return mt_rand(1, 100);
+        return mt_rand($min, $max);
     } // end getRandom
 
     protected function getOrMakeSeed()

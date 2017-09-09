@@ -23,7 +23,8 @@ class DefaultRollTablesSeeder extends Seeder
         ]);
 
         $list_id = DB::table('roll_tier_lists')->insertGetId([
-            'notes' => 'Test Roll Table - T0',
+            'name' => 'Test Roll Table',
+            'notes' => 'Drops random skill',
         ]);
 
         $skill_ids = [];
@@ -42,6 +43,8 @@ class DefaultRollTablesSeeder extends Seeder
                 'chance_percent' => floor(100 / sizeof($skill_ids)),
                 'object_type' => '\App\Models\Skill',
                 'object_id' => $skill_id,
+                'min_quantity' => 5,
+                'max_quantity' => 20,
             ]);
         }
 
@@ -69,7 +72,8 @@ class DefaultRollTablesSeeder extends Seeder
         ]);
 
         $list_id = DB::table('roll_tier_lists')->insertGetId([
-            'notes' => 'Test Roll Table - T0',
+            'name' => 'Test Roll Table',
+            'notes' => 'Gives one skill',
         ]);
 
         $skill_id = DB::table('skills')->insertGetId([
@@ -82,6 +86,8 @@ class DefaultRollTablesSeeder extends Seeder
             'chance_percent' => 100,
             'object_type' => '\App\Models\Skill',
             'object_id' => $skill_id,
+            'min_quantity' => 5,
+            'max_quantity' => 20,
         ]);
 
         DB::table('roll_tiers')->insert([

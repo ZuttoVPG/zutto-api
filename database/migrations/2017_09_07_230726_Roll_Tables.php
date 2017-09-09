@@ -24,6 +24,7 @@ class RollTables extends Migration
 
         Schema::create('roll_tier_lists', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->string('notes');
         });
 
@@ -45,6 +46,8 @@ class RollTables extends Migration
             $table->increments('id');
             $table->integer('roll_tier_list_id');
             $table->smallInteger('chance_percent')->unsigned();
+            $table->integer('min_quantity');
+            $table->integer('max_quantity');
             $table->morphs('object');
 
             $table->index('roll_tier_list_id');
