@@ -56,7 +56,6 @@ class RollService
                 $prize = $tier->list->objects[$prize_ref];
                 $prize_quantity = $this->getRandom($prize->min_quantity, $prize->max_quantity);
 
-                // @TODO - fix the quantity stuff, needs migs
                 $this->result->log($tier->tier, 'Roll table was ' . json_encode($prize_refs));
                 $this->result->log($tier->tier, 'Won ' . $prize->object_type . ':' . $prize->object_id . " x$prize_quantity");
                 $this->result->addObject($prize->object, $prize_quantity);
