@@ -39,6 +39,7 @@ class Pets extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
+            $table->integer('max_effect_percent');
             $table->timestamps();
             $table->softDeletes();
         });
