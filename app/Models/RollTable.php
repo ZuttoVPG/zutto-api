@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\RollTier;
+use App\Models\PetType;
 use Illuminate\Database\Eloquent\Model;
 
 class RollTable extends Model 
@@ -16,4 +17,9 @@ class RollTable extends Model
     {
         return $this->hasMany(RolLTier::class);
     } // end tiers
+
+    public function petTypesUsing()
+    {
+        return $this->hasMany(PetType::class, 'skill_roll_table_id');
+    } // end petTypesUsing
 }

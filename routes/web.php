@@ -40,6 +40,15 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     // Email Verification
     $router->post('/verify/resend', 'VerifyController@resend');
     $router->post('/verify/{token}', 'VerifyController@verify');
+
+    // Pets
+    $router->get('/pet', 'PetController@getPets');
+    $router->put('/pet', 'PetController@createPet');
+    $router->get('/pet/{id}', 'PetController@getPet');
+
+    // Species 
+    $router->get('/petType', 'PetTypeController@getTypes');
+    $router->get('/petType/{id}', 'PetTypeController@getType');
 });
 
 // Config routes. 
