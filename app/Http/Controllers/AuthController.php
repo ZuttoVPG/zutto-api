@@ -31,7 +31,7 @@ class AuthController extends AccessTokenController
 
         $response = parent::issueToken($psr_request);
         if ($response->getStatusCode() != 200) {
-            $error = json_decode($response->getBody()->__toString(), true);
+            $error = json_decode($response->content(), true);
 
             // Reformat the Passport error into our usual Zutto form error response
             return $this->formInvalidResponse($error['message']);
