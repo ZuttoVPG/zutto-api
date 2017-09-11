@@ -43,13 +43,13 @@ class RollService
             $tier_roll = $this->getRandom();
             $chance = 100 - $tier->chance_percent;
             if ($tier_roll >= $chance) {
-                $this->result->log($tier->tier, "Rolled into tier with $tier_roll >= $chance"); 
+                $this->result->log($tier->tier, "Rolled into tier with $tier_roll >= $chance");
 
                 $prize_refs = [];
                 $fill_idx = 1;
                 foreach ($tier->list->objects as $prize_idx => $prize) {
                     $prize_refs = $prize_refs + array_fill($fill_idx, $prize->chance_percent, $prize_idx);
-                    $fill_idx = sizeof($prize_refs) + 1; 
+                    $fill_idx = sizeof($prize_refs) + 1;
                 }
 
                 $prize_ref = $prize_refs[$this->getRandom()];
@@ -60,9 +60,9 @@ class RollService
                 $this->result->log($tier->tier, 'Won ' . $prize->object_type . ':' . $prize->object_id . " x$prize_quantity");
                 $this->result->addObject($prize->object, $prize_quantity);
             } else {
-                $this->result->log($tier->tier, "Failed tier with $tier_roll >= $chance"); 
+                $this->result->log($tier->tier, "Failed tier with $tier_roll >= $chance");
             }
-        } 
+        }
 
         // Re-randomize the prng in case it gets used again
         mt_srand(random_int(PHP_INT_MIN, PHP_INT_MAX));

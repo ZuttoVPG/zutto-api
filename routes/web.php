@@ -12,7 +12,7 @@
 */
 
 $router->get('/', function () use ($router) {
-    return "ZuttoZuttoZutto API v0.0.0-indev"; 
+    return "ZuttoZuttoZutto API v0.0.0-indev";
 });
 
 // OAuth2 provider -- see https://github.com/dusterio/lumen-passport#installed-routes
@@ -46,7 +46,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->put('/pet', 'PetController@createPet');
     $router->get('/pet/{id}', 'PetController@getPet');
 
-    // Species 
+    // Species
     $router->get('/petType', 'PetTypeController@getTypes');
     $router->get('/petType/{id}', 'PetTypeController@getType');
 });

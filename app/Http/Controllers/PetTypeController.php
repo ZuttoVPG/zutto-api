@@ -12,7 +12,7 @@ class PetTypeController extends Controller
         // @TODO - eligibility criteria?
         $types = PetType::adoptable()->get();
 
-        return $types; 
+        return $types;
     } // end getTypeList
 
     public function getType(Request $request, $id)
@@ -25,5 +25,4 @@ class PetTypeController extends Controller
 
         return $type;
     } // end getType
-
-} // end PetTypeController 
+} // end PetTypeController

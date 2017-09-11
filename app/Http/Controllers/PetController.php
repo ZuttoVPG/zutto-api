@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Models\Pet;
 use App\Models\PetType;
-use App\Repositories\PetRepository; 
+use App\Repositories\PetRepository;
 use Illuminate\Http\Request;
 
 class PetController extends Controller
@@ -45,4 +45,4 @@ class PetController extends Controller
         $pet = PetRepository::create($request->user(), $data, $type);
         return $pet;
     } // end createPet
-} // end PetController 
+} // end PetController

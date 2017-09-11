@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class RollResult 
+class RollResult
 {
     protected $seed;
     protected $objects = [];

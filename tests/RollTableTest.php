@@ -11,7 +11,7 @@ class RollTableTest extends TestCase
         $resp = $this->actingAs($this->user)->json('GET', '/config/rollTable/1');
         $resp->assertResponseOk();
 
-        $resp->seeJsonStructure(['id', 'tiers']); 
+        $resp->seeJsonStructure(['id', 'tiers']);
     } // end testGet
 
     public function testRoll()
@@ -21,5 +21,4 @@ class RollTableTest extends TestCase
 
         $resp->seeJsonStructure(['seed', 'prizes', 'log']);
     } // end testRoll
-
-} // end RollTableTest 
+} // end RollTableTest

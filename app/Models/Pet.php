@@ -9,7 +9,7 @@ use App\Models\PetSkill;
 use App\Models\PetType;
 use Illuminate\Database\Eloquent\Model;
 
-class Pet extends Model 
+class Pet extends Model
 {
     protected $hidden = ['updated_at', 'deleted_at', 'user_id', 'user'];
 

@@ -6,7 +6,7 @@ use App\Models\RollTier;
 use App\Models\RollListObject;
 use Illuminate\Database\Eloquent\Model;
 
-class RollTierList extends Model 
+class RollTierList extends Model
 {
     public function tiers()
     {

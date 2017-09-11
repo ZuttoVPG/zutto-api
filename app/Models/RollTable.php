@@ -6,7 +6,7 @@ use App\Models\RollTier;
 use App\Models\PetType;
 use Illuminate\Database\Eloquent\Model;
 
-class RollTable extends Model 
+class RollTable extends Model
 {
     public function scopeFullTable($query)
     {

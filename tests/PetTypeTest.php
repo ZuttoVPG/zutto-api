@@ -11,7 +11,7 @@ class PetTypeTest extends TestCase
         $resp = $this->actingAs($this->user)->json('GET', '/petType');
 
         $resp->assertResponseOk();
-        $resp->seeJsonStructure(['*' => ['id', 'default_skin' => ['image']]]); 
+        $resp->seeJsonStructure(['*' => ['id', 'default_skin' => ['image']]]);
     } // end testTypes
 
     public function testType()
@@ -19,6 +19,6 @@ class PetTypeTest extends TestCase
         $resp = $this->actingAs($this->user)->json('GET', '/petType/1');
 
         $resp->assertResponseOk();
-        $resp->seeJsonStructure(['id', 'default_skin' => ['image']]); 
+        $resp->seeJsonStructure(['id', 'default_skin' => ['image']]);
     } // end testTypes
-} // end RollTableTest 
+} // end RollTableTest

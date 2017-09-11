@@ -6,7 +6,7 @@ use App\Models\PetSkill;
 use App\Models\RollListObject;
 use Illuminate\Database\Eloquent\Model;
 
-class Skill extends Model 
+class Skill extends Model
 {
     public function rollList()
     {

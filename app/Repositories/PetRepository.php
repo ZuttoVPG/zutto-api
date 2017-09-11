@@ -43,8 +43,8 @@ class PetRepository extends BaseRepository
             $pet = Pet::details()->where('id', $pet->id)->first();
 
             return $pet;
-        }); 
-    } // end create 
+        });
+    } // end create
 
     public static function createNewUser($userData, $provider = 'native')
     {

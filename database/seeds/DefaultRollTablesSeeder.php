@@ -26,12 +26,12 @@ class DefaultRollTablesSeeder extends Seeder
             'notes' => '',
         ]);
 
-        $skills = []; 
+        $skills = [];
         $db_skills = DB::table('skills')->get();
         foreach ($db_skills as $item) {
             $skill = [
-                'object_id' => $item->id, 
-                'min_quantity' => 5, 
+                'object_id' => $item->id,
+                'min_quantity' => 5,
                 'max_quantity' => 20,
                 'chance_percent' => floor(100 / $db_skills->count()),
             ];
@@ -54,24 +54,23 @@ class DefaultRollTablesSeeder extends Seeder
 
         foreach ($skills as $skill) {
             DB::table('roll_list_objects')->insert(array_merge($skill, [
-                'roll_tier_list_id' => $list_id, 
+                'roll_tier_list_id' => $list_id,
                 'object_type' => '\App\Models\Skill',
             ]));
         }
 
         DB::table('roll_tiers')->insert([
-            'roll_table_id' => $table_id, 
+            'roll_table_id' => $table_id,
             'chance_percent' => 100,
             'tier' => 0,
             'roll_tier_list_id' => $list_id,
         ]);
 
         DB::table('roll_tiers')->insert([
-            'roll_table_id' => $table_id, 
+            'roll_table_id' => $table_id,
             'chance_percent' => 5,
             'tier' => 1,
             'roll_tier_list_id' => $list_id,
         ]);
-
     } // end skillTable
 }

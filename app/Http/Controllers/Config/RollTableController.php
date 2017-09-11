@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Config;
 
 use App\Http\Controllers\Controller;
-use App\Models\RollTable; 
+use App\Models\RollTable;
 use Illuminate\Http\Request;
 
 class RollTableController extends Controller
@@ -16,7 +16,7 @@ class RollTableController extends Controller
         }
 
         return $table;
-    } // end getOne 
+    } // end getOne
 
     public function testRoll(Request $request, $id, $seed = null)
     {
@@ -37,4 +37,4 @@ class RollTableController extends Controller
             'log' => $result->getLog(),
         ];
     } // end testRoll
-} // end RollTableController 
+} // end RollTableController

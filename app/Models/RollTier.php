@@ -6,7 +6,7 @@ use App\Models\RollTable;
 use App\Models\RollTierList;
 use Illuminate\Database\Eloquent\Model;
 
-class RollTier extends Model 
+class RollTier extends Model
 {
     public function table()
     {

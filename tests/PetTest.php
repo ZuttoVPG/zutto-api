@@ -22,7 +22,7 @@ class PetTest extends TestCase
         $resp = $this->actingAs($this->user)->json('GET', '/pet');
         
         $resp->assertResponseOk();
-        $resp->seeJsonStructure(['*' => ['name', 'type', 'skin', 'skills']]); 
+        $resp->seeJsonStructure(['*' => ['name', 'type', 'skin', 'skills']]);
     } // end testPetList
 
     public function testGetPet()
@@ -30,6 +30,6 @@ class PetTest extends TestCase
         $resp = $this->actingAs($this->user)->json('GET', '/pet/1');
         
         $resp->assertResponseOk();
-        $resp->seeJsonStructure(['name', 'type', 'skin', 'skills']); 
+        $resp->seeJsonStructure(['name', 'type', 'skin', 'skills']);
     } // end testGetPet
-} // end RollTableTest 
+} // end RollTableTest

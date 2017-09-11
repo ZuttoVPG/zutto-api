@@ -20,5 +20,4 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
         $this->artisan("db:seed");
         $this->user = factory('App\Models\User')->create();
     } // end setUp
-
 }

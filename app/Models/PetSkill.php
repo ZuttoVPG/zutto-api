@@ -6,7 +6,7 @@ use App\Models\Pet;
 use App\Models\Skill;
 use Illuminate\Database\Eloquent\Model;
 
-class PetSkill extends Model 
+class PetSkill extends Model
 {
     protected $visible = ['id', 'bonus_percent', 'name', 'description'];
     protected $appends = ['name', 'description'];
@@ -30,7 +30,6 @@ class PetSkill extends Model
 
     public function skill()
     {
-        return $this->belongsTo(Skill::class); 
+        return $this->belongsTo(Skill::class);
     } // end skill
-
 } // end PetSkin

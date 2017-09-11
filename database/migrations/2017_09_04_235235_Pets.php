@@ -74,7 +74,6 @@ class Pets extends Migration
             $table->foreign('pet_skin_id')->references('id')->on('pet_skins');
             $table->foreign('user_id')->references('id')->on('users');
         });
-
     }
 
     /**

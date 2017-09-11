@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\RollTierList;
 use Illuminate\Database\Eloquent\Model;
 
-class RollListObject extends Model 
+class RollListObject extends Model
 {
     public function list()
     {
