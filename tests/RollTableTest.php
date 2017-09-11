@@ -5,14 +5,6 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 class RollTableTest extends TestCase
 {
     use DatabaseMigrations;
-    private $user;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->artisan("db:seed");
-        $this->user = factory('App\Models\User')->create();
-    } // end setUp
 
     public function testGet()
     {
