@@ -48,9 +48,11 @@ class DefaultRollTablesSeeder extends Seeder
         }
 
         // Make sure we add up to 100
-        if (100 % sizeof($skills) != 0) {
-            $skills[0]['chance_percent'] += 1;
+        $drop_sum = 0;
+        foreach ($skills as $skill) {
+            $drop_sum += $skill['chance_percent'];
         }
+        $skills[0]['chance_percent'] += 100 - $drop_sum;
 
         foreach ($skills as $skill) {
             DB::table('roll_list_objects')->insert(array_merge($skill, [
