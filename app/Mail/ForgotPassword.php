@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmailVerify extends Mailable
+class ForgotPassword extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,12 +19,12 @@ class EmailVerify extends Mailable
 
     public function build()
     {
-        return $this->view('mail.email-verify')
-            ->subject('Zuttopets - Verify Email')
+        return $this->view('mail.forgot-password')
+            ->subject('Zuttopets - Password Reset')
             ->with([
                 'username' => $this->user->username,
                 'id' => $this->user->id,
-                'verifyToken' => $this->user->emailVerifyToken, 
+                'passwordResetToken' => $this->user->password_reset_token,
             ]);
     } // end build
 } // end EmailVerify

@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Laravel\Passport\TokenRepository;
 
 class UserRepository extends BaseRepository
 {
@@ -58,4 +59,33 @@ class UserRepository extends BaseRepository
             return $user;
         });
     } // end verifyUser
+
+    public static function requestPwReset(User $user)
+    {
+        return DB::transaction(function () use ($user) {
+            $user->password_reset_token = bin2hex(random_bytes(32));
+            $user->save();
+
+            return $user;
+        });
+    } // end requestPwReset
+
+    public static function updatePassword(User $user, $password)
+    {
+        $password = User::hashPassword($password);
+
+        return DB::transaction(function () use ($user, $password) {
+            $user->password_hash = $password['hash'];
+            $user->password_salt = $password['salt'];
+            $user->password_reset_token = null;
+
+            // PW change = all sessions get the boot
+            $token_repo = new TokenRepository;
+            $token_repo->forUser($user->id)->each(function ($item, $key) use ($token_repo) {
+                $token_repo->revokeAccessToken($item->id);
+            });
+
+            return $user->save();
+        });
+    } // end updatePassword 
 } // end UserRepository

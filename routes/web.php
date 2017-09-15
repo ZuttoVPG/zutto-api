@@ -26,7 +26,7 @@ $router->group(['prefix' => 'oauth'], function () use ($router) {
 // Unauthed signup/user management operations 
 $router->put('/user', 'UserController@create');
 $router->post('/auth/forgot', 'AuthController@forgotRequest');
-$router->post('/auth/forgot/{token}', 'AuthController@forgotChange');
+$router->post('/auth/forgot/{id}/{token}', 'AuthController@forgotChange');
 
 // Authenticated stuff
 $router->group(['middleware' => 'auth'], function () use ($router) {
