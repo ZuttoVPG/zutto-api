@@ -18,10 +18,14 @@ install:
     - cp .travis.env .env
     - travis_retry composer install --dev --no-interaction 
     - composer show 
+    - php artisan migrate:status
 
 script: 
     - composer cs-check
     - composer test 
+
+after_failure: 
+    - cat storage/logs/lumen.log 
 
 # after_success: # one day...
 after_script:
