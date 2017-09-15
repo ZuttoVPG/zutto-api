@@ -24,7 +24,7 @@ class EmailVerify extends Mailable
             ->with([
                 'username' => $this->user->username,
                 'id' => $this->user->id,
-                'verifyToken' => $this->user->emailVerifyToken, 
+                'verifyToken' => $this->user->emailVerifyToken,
             ]);
     } // end build
 } // end EmailVerify

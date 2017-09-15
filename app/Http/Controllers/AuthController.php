@@ -48,7 +48,7 @@ class AuthController extends AccessTokenController
     {
         $data = $request->all();
 
-        $validator = Validator::make($data, User::getSignupValidations(['username', 'email'])); 
+        $validator = Validator::make($data, User::getSignupValidations(['username', 'email']));
         if ($validator->fails() == true) {
             return $this->formInvalidResponse(null, $validator->errors());
         }
@@ -68,7 +68,7 @@ class AuthController extends AccessTokenController
     {
         $data = $request->all();
 
-        $validator = Validator::make($data, User::getSignupValidations(['password'])); 
+        $validator = Validator::make($data, User::getSignupValidations(['password']));
         if ($validator->fails() == true) {
             return $this->formInvalidResponse(null, $validator->errors());
         }

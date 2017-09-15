@@ -16,7 +16,6 @@ class PasswordReset extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('password_reset_token')->nullable();
         });
-
     }
 
     /**
@@ -29,6 +28,5 @@ class PasswordReset extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('password_reset_token');
         });
-
     }
 }

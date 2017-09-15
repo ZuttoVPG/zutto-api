@@ -87,5 +87,5 @@ class UserRepository extends BaseRepository
 
             return $user->save();
         });
-    } // end updatePassword 
+    } // end updatePassword
 } // end UserRepository
