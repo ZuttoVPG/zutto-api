@@ -24,7 +24,11 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
         $this->user = factory('App\Models\User')->create();
 
         // If you're using this as a dev env, you might have Apache as the owner on the files for the default location.
-        Passport::loadKeysFrom(storage_path('phpunit_passport_tokens'));
+        $secondary_key_dir = storage_path('phpunit_passport_tokens');
+        if (file_exists("${secondary_key_dir}/oauth-private.key") == true)
+        {
+            Passport::loadKeysFrom($secondary_key_dir);
+        }
 
         // Don't send emails!
         Mail::fake();
