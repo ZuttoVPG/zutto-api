@@ -11,6 +11,17 @@
 |
 */
 
+$factory->define(App\Models\Pet::class, function (Faker\Generator $faker) {
+    $type = \App\Models\PetType::get()->first();
+
+    return [
+        'name' => $faker->name,
+        'in_storage' => false,
+        'pet_type_id' => $type->id,
+        'pet_skin_id' => $type->defaultSkin->id,
+    ];
+});
+
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
         'username' => $faker->name,

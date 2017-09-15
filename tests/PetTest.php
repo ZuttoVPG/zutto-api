@@ -27,7 +27,10 @@ class PetTest extends TestCase
 
     public function testGetPet()
     {
-        $resp = $this->actingAs($this->user)->json('GET', '/pet/1');
+        $user = factory('App\Models\User')->create();
+        $pet = factory('App\Models\Pet')->create(['user_id' => $user->id]);
+
+        $resp = $this->actingAs($user)->json('GET', '/pet/' . $pet->id);
         
         $resp->assertResponseOk();
         $resp->seeJsonStructure(['name', 'type', 'skin', 'skills']);
