@@ -21,8 +21,6 @@ class UserTest extends TestCase
 
     public function testSignup()
     {
-        Mail::fake();
-
         Captcha::shouldReceive('verify')
             ->once()
             ->with('test')
@@ -42,8 +40,6 @@ class UserTest extends TestCase
 
     public function testSignupWithBadCaptcha()
     {
-        Mail::fake();
-
         Captcha::shouldReceive('verify')
             ->once()
             ->with('test')
@@ -83,8 +79,6 @@ class UserTest extends TestCase
 
     public function testUpdateProfileEmail()
     {
-        Mail::fake();
-
         $user = factory('App\Models\User')->create();
         $resp = $this->actingAs($user)->json('POST', '/user', [
             'email' => 'something-different@example.org',
