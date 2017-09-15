@@ -39,9 +39,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany(Pet::class);
     } // end pets
 
-    public static function getSignupValidations()
+    public static function getSignupValidations($filter = null)
     {
-        return [
+        $fields = [
             'username' => 'required|unique:users|max:32',
             'email' => 'required|email|max:255',
             'birthDate' => 'required|date_format:Y-m-d|coppa',
@@ -51,6 +51,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             'last_access_ip' => 'required|ip',
             'captchaToken' => 'required|recaptcha'
         ];
+
+        if (is_array($filter) == true) {
+            $fields = array_intersect_key($fields, array_flip($filter));
+
+            // If username is being explicitly grabbed, it probably isn't for
+            // signup, so don't include the uniqueness constraint.
+            if (array_key_exists('username', $fields) == true) {
+                $fields['username'] = 'required|max:32';
+            }
+        }
+
+        return $fields;
     } // end getSignupValidations
 
     public static function hashPassword($plaintext, $salt = null)
