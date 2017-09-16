@@ -53,6 +53,7 @@ class UserRepository extends BaseRepository
         return DB::transaction(function () use ($user) {
             $user->email_verify_token = null;
             $user->email_confirmed = true;
+            $user->email_confirmation_sent = null;
 
             $user->save();
 

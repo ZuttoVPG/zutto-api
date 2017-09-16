@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c813b97251fa502268126b8edb1b0fe9",
+    "content-hash": "7ac5df1c65e585163c4b00a9af15aba0",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -3814,7 +3814,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2017-09-15T09:49:58+00:00"
+            "time": "2017-09-15 09:49:58"
         },
         {
             "name": "myclabs/deep-copy",

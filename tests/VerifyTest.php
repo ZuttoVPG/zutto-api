@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Mail\EmailVerify;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
@@ -23,7 +24,11 @@ class VerifyTest extends TestCase
 
     public function testVerification()
     {
-        $user = factory('App\Models\User')->create();
+        $user = factory('App\Models\User')->create([
+            'email_confirmed' => false, 
+            'email_verify_token' => 'abcdef', 
+            'email_confirmation_sent' => Carbon::now(),
+        ]);
         $token = $user->email_verify_token;
 
         $resp = $this->actingAs($user)->json('POST', "/verify/$token");
@@ -31,5 +36,6 @@ class VerifyTest extends TestCase
 
         $updated_user = User::find($user->id);
         $this->assertTrue($updated_user->email_confirmed);
+        $this->assertNull($updated_user->email_confirmation_sent);
     } // end testSignup
 } // end UserTest

@@ -90,6 +90,7 @@ class UserTest extends TestCase
 
         $user = User::where('id', $user->id)->first();
         $this->assertFalse($user->email_confirmed);
+        $this->assertNotNull($user->email_confirmation_sent);
         
         Mail::assertSent(EmailVerify::class);
     } // end testUpdateProfileEmail
