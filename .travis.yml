@@ -33,5 +33,5 @@ after_script:
 
 notifications:
     email: false
-    irc: "ircs://irc.yasashiisyndicate.org:6697/#zutto"
+    webhooks: https://infra.godless-internets.org/TravisCI-Webhooks/travis-ci.php 
 
