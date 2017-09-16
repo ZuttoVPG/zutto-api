@@ -25,7 +25,6 @@ script:
     - composer test 
 
 after_failure: 
-    - php artisan migrate:status
     - cat storage/logs/lumen.log 
 
 # after_success: # one day...
