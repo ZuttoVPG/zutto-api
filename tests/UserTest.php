@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Mail\EmailVerify;
 use App\Support\Facades\Captcha;
 use Illuminate\Support\Facades\Mail;
@@ -86,6 +87,9 @@ class UserTest extends TestCase
 
         $resp->assertResponseOk();
         $resp->seeJsonStructure(['id', 'username']);
+
+        $user = User::where('id', $user->id)->first();
+        $this->assertFalse($user->email_confirmed);
         
         Mail::assertSent(EmailVerify::class);
     } // end testUpdateProfileEmail
@@ -93,11 +97,16 @@ class UserTest extends TestCase
     public function testUpdateProfilePassword()
     {
         $user = factory('App\Models\User')->create();
+        $pw_hash_orig = $user->password_hash;
+
         $resp = $this->actingAs($user)->json('POST', '/user', [
             'password' => 'literallydogs',
         ]);
 
         $resp->assertResponseOk();
         $resp->seeJsonStructure(['id', 'username']);
+
+        $user = User::find($user->id);
+        $this->assertNotEquals($pw_hash_orig, $user->pw_hash);
     } // end testUpdateProfilePassword
 } // end UserTest

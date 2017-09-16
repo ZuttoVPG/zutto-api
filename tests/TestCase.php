@@ -25,8 +25,7 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
 
         // If you're using this as a dev env, you might have Apache as the owner on the files for the default location.
         $secondary_key_dir = storage_path('phpunit_passport_tokens');
-        if (file_exists("${secondary_key_dir}/oauth-private.key") == true)
-        {
+        if (file_exists("${secondary_key_dir}/oauth-private.key") == true) {
             Passport::loadKeysFrom($secondary_key_dir);
         }
 

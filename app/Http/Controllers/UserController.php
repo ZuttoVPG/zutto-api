@@ -27,7 +27,22 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        return response(['NYI' => true])->setStatusCode(500);
+        $data = $request->all();
+        $updatable = [
+            'email' => 'required|email|max:255',
+        ];
+
+        $update_fields = array_intersect_key($updatable, $data);
+        $data = array_intersect_key($data, $update_fields);
+
+        $validator = Validator::make($data, $update_fields);
+        if ($validator->fails() == true) {
+            return $this->formInvalidResponse(null, $validator->errors());
+        }
+
+        $user = UserRepository::updateProfile($request->user(), $data);
+
+        return response($user->toArray());
     } // end login
 
     public function create(Request $request)

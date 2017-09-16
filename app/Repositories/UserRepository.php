@@ -70,6 +70,32 @@ class UserRepository extends BaseRepository
         });
     } // end requestPwReset
 
+    public static function updateProfile(User $user, $data)
+    {
+        return DB::transaction(function () use ($user, $data) {
+            // Password first, since we're updating the user
+            if (array_key_exists('password', $data) == true) {
+                $user = self::updatePassword($user, $data['password']);
+                unset($data['password']);
+            }
+
+            if (array_key_exists('email', $data) == true) {
+                $user->email = $data['email'];
+                $user->email_confirmed = false;
+                unset($data['email']);
+            }
+
+            // Misc stuff that isn't a big deal
+            foreach ($data as $key => $value) {
+                $user->$key = $value;
+            }
+
+            $user->save();
+
+            return $user;
+        });
+    } // end updateProfile
+
     public static function updatePassword(User $user, $password)
     {
         $password = User::hashPassword($password);
