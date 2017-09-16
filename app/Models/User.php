@@ -4,6 +4,7 @@ namespace App\Models;
 
 use RuntimeException;
 use App\Models\Pet;
+use App\Events\UserSaveEvent;
 use App\Repositories\UserRepository;
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -32,6 +33,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $hidden = [
         'password_hash', 'password_salt', 'auth_provider', 'remember_token', 'email_verify_token',
+    ];
+
+    protected $dispatchesEvents = [
+        'saved' => UserSaveEvent::class,
     ];
 
     public function pets()
