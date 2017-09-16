@@ -4,21 +4,20 @@ use App\Models\User;
 use App\Mail\EmailVerify;
 use App\Support\Facades\Captcha;
 use Illuminate\Support\Facades\Mail;
-use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
-    use DatabaseMigrations;
-
-    protected $create_data = [
-        'username' => 'testacct',
-        'password' => 'pwpwpwpw',
-        'email' => 'test@example.org',
-        'birthDate' => '1975-01-01',
-        'tosAccept' => true,
-        'captchaToken' => 'test',
-    ];
+    protected function getCreateData($username)
+    {
+        return [
+            'username' => "test_${username}",
+            'password' => 'pwpwpwpw',
+            'email' => 'test@example.org',
+            'birthDate' => '1975-01-01',
+            'tosAccept' => true,
+            'captchaToken' => 'test',
+        ];
+    } // end getCreateData
 
     public function testSignup()
     {
@@ -32,7 +31,7 @@ class UserTest extends TestCase
                 }
             });
 
-        $resp = $this->json('PUT', '/user', $this->create_data);
+        $resp = $this->json('PUT', '/user', $this->getCreateData(__FUNCTION__));
 
         $resp->assertResponseOk();
         $resp->seeJsonStructure(['id', 'username']);
@@ -51,7 +50,7 @@ class UserTest extends TestCase
                 }
             });
 
-        $resp = $this->json('PUT', '/user', $this->create_data);
+        $resp = $this->json('PUT', '/user', $this->getCreateData(__FUNCTION__));
 
         $resp->assertResponseStatus(400);
         $resp->seeJsonStructure(['errors' => ['fields' => ['captchaToken']]]);

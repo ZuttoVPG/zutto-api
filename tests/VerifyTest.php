@@ -4,18 +4,17 @@ use Carbon\Carbon;
 use App\Mail\EmailVerify;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
-use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class VerifyTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function testResend()
     {
         Mail::fake();
 
-        $user = factory('App\Models\User')->create();
+        $user = factory('App\Models\User')->create([
+            'email_confirmed' => false,
+            'email_verify_token' => 'dog123',
+        ]);
         $resp = $this->actingAs($user)->json('POST', '/verify/resend');
 
         $resp->assertResponseOk();
