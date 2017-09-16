@@ -24,8 +24,8 @@ class VerifyTest extends TestCase
     public function testVerification()
     {
         $user = factory('App\Models\User')->create([
-            'email_confirmed' => false, 
-            'email_verify_token' => 'abcdef', 
+            'email_confirmed' => false,
+            'email_verify_token' => 'abcdef',
             'email_confirmation_sent' => Carbon::now(),
         ]);
         $token = $user->email_verify_token;

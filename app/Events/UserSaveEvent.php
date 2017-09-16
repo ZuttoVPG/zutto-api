@@ -13,5 +13,4 @@ class UserSaveEvent extends Event
     {
         $this->user = $user;
     } // end __construct
-
 } // end UserSaveEvent

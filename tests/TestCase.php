@@ -3,6 +3,7 @@
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Lumen\Testing\DatabaseMigrations;
+
 // use Laravel\Lumen\Testing\DatabaseTransactions;
 
 abstract class TestCase extends Laravel\Lumen\Testing\TestCase

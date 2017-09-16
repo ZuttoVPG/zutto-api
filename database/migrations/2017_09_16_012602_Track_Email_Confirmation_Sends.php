@@ -15,7 +15,7 @@ class TrackEmailConfirmationSends extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->datetime('email_confirmation_sent')->nullable();
-        }); 
+        });
     }
 
     /**
